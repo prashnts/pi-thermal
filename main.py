@@ -10,13 +10,10 @@ CAN_PRINT = os.path.exists("./PRODUCTION")
 
 class EventHandler(FileSystemEventHandler):
     def on_any_event(self, event: FileSystemEvent) -> None:
-        match event:
-            case FileModifiedEvent(_):
-                print(f"Printing: {event.src_path}")
-                if CAN_PRINT:
-                    subprocess.run(["lp", event.src_path])
-            case _:
-                pass
+        if isinstance(event, FileModifiedEvent):
+            print(f"Printing: {event.src_path}")
+            if CAN_PRINT:
+                subprocess.run(["lp", event.src_path])
 
 if __name__ == "__main__":
     os.makedirs("./inbox", exist_ok=True)
