@@ -2,6 +2,7 @@ import time
 import os
 import subprocess
 import functools
+import random
 
 def screensaver():
     result = subprocess.run(['w'], stdout=subprocess.PIPE)
@@ -9,10 +10,13 @@ def screensaver():
     for line in stdout.splitlines():
         if ':console' not in line:
             continue
-        if 's' not in line.split()[4]:
+        idle_time = line.split()[4]
+        if 's' not in idle_time:
             print("saving screen")
-            if 'bash /u' not in line:
-                subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', 'pipes.sh^M'])
+            saver = random.choice(['pipes.sh', 'cmatrix'])
+            signs = ['bash /u', 'cmatrix']
+            if all(sig not in line for sig in signs):
+                subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'{saver}^M'])
                 print("saved")
 
 
