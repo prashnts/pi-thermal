@@ -27,7 +27,7 @@ def screensaver():
         if 's' not in line.split()[4]:
             print("saving screen")
             if 'bash /u' not in line:
-                subprocess.run(['screen -x myTTY1 -X stuff "pipes.sh^M"'])
+                subprocess.run(['screen', '-x myTTY1', '-X stuff', "pipes.sh^M"])
                 print("saved")
 
 
