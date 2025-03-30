@@ -16,7 +16,8 @@ def screensaver():
             saver = random.choice(['pipes.sh', 'cmatrix'])
             signs = ['bash /u', 'cmatrix']
             if all(sig not in line for sig in signs):
-                subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'^C{saver}^M'])
+                subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'^C'])
+                subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'{saver}^M'])
                 print("saved")
 
 
