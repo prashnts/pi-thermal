@@ -1,0 +1,15 @@
+[Unit]
+Description=my tty1-service
+After=getty.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/screen -U -A -S myTTY1 /usr/bin/zsh
+StandardInput=tty-force
+StandardOutput=inherit
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
