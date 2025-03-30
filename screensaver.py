@@ -24,6 +24,7 @@ def screensaver():
     for line in stdout.splitlines():
         if ':console' not in line:
             continue
+        print(line, line.split(), line.split(None))
         if 's' not in line.split()[4]:
             print("saving screen")
             if 'bash /u' not in line:
