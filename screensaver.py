@@ -21,6 +21,7 @@ def debounce(timeout: float):
 def screensaver():
     result = subprocess.run(['w'], stdout=subprocess.PIPE)
     stdout = result.stdout.decode()
+    print(stdout)
     for line in stdout.splitlines():
         if ':console' not in line:
             continue
