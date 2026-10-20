@@ -171,4 +171,8 @@ cython_debug/
 .pypirc
 
 inbox/
-.python-version
+.python-versionstate.json
+last.bin
+web/store/
+web/icons/*.json
+web/icons/*.json.gz

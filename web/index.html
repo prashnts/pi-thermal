@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Label Printer</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <strong>Labels</strong>
+  <span id="pages"></span>
+  <button id="pstat" class="pstat off" title="the printer's state">…</button>
+  <button id="addpage" title="add a page (a label)">+<span class="wide"> page</span></button>
+  <button id="delpage" title="delete this page">−<span class="wide"> page</span></button>
+  <span class="grow"></span>
+  <label class="inline zoomctl">zoom <input id="zoom" type="range" min="1.5" max="30" step="0.1" value="3.8"> <span id="zoomv" class="zv">1:1</span></label>
+  <button id="real" class="zoomctl" title="real size: as big as on the paper (calibrate in Paper &amp; roll)">1:1</button>
+  <label class="inline prevctl"><input id="ruler" type="checkbox" checked> ruler</label>
+  <label class="inline prevctl"><input id="preview" type="checkbox"> as printed</label>
+  <label class="inline prevctl" title="snap guides: edges and middles catch on each other and the label while dragging (Alt: off)"><input id="snap" type="checkbox" checked> snap</label>
+  <select id="printwhat" title="which pages Print prints (greyed page numbers don't)"><option value="all">all pages</option><option value="page">this page</option></select>
+  <label class="inline">copies <input id="copies" type="number" min="1" max="50" value="1"></label>
+  <label class="inline" title="print from the top of the next label: the one at the head, its top already past the head after a tear, is fed through blank"><input id="whole" type="checkbox"> whole label</label>
+  <label class="inline" title="after printing, bring the gap out past the tear bar to cut"><input id="feedout" type="checkbox" checked> feed out</label>
+  <button class="go" id="print" title="Ctrl P">Print</button>
+  <button id="help" title="shortcuts (?)">?</button>
+</header>
+<main>
+  <aside id="left">
+    <details open data-tab="add"><summary>Add</summary>
+      <div class="row">
+        <button id="addtext">Text</button>
+        <button id="addbox">Box</button>
+        <button id="addline">Line</button>
+        <button id="addarrow" title="a line with an arrow head (A)">Arrow</button>
+        <select id="addshape" title="ellipse, triangle, star, block arrow ..."></select>
+        <button id="addcode" title="QR, Data Matrix, Code 128, EAN ... (C)">Code</button>
+        <button id="addtag" title="a box with an icon and a title (G)">Tag</button>
+        <button id="addmarker" title="ArUco, AprilTag, ChArUco board, checkerboard (M)">Marker</button>
+        <button id="addwire" title="a tag round a wire, or in heat-shrink (W)">Wire tag</button>
+        <button id="addpins" title="pin names round a header / connector, terminal blocks, breakers (P)">Pins</button>
+        <button id="addlink" title="join objects with links: click one, then the next … (J); with several selected, J joins them">Join</button>
+        <button id="addfil" title="a filament spool label: brand, type, colour, dates, a code built from them (F)">Filament</button>
+        <label class="file">SVG / image / font<input id="file" type="file" multiple accept=".svg,image/*,.ttf,.otf,.woff,.woff2,.json"></label>
+      </div>
+      <p class="hint">Or drop / paste files anywhere: SVG, images, fonts, a saved design.</p>
+    </details>
+    <details data-tab="icons"><summary>Icons</summary>
+      <div class="row"><select id="iconset" style="flex:1;min-width:0"></select></div>
+      <div class="row">
+        <input id="iconq" placeholder="Search" autocomplete="off" style="flex:1;min-width:0">
+      </div>
+      <div class="row">
+        <select id="iconstyle"></select>
+        <label class="inline"><input id="iconfill" type="checkbox"> filled</label>
+      </div>
+      <div id="icons" class="icons"></div>
+    </details>
+    <details open data-tab="cables"><summary>Cable labels</summary>
+      <p class="hint">One per line: <code>big | small</code></p>
+      <textarea id="cables" rows="5" placeholder="WAN | 2&#10;GMK | 19V&#10;Rack | Sw"></textarea>
+      <label>flag width, mm <input id="cF" type="number" step="0.5" value="20"></label>
+      <label>half height, mm <input id="cH" type="number" step="0.5" value="6"></label>
+      <label>tail length, mm <input id="cT" type="number" step="0.5" value="20"></label>
+      <label>tail height, mm <input id="cTh" type="number" step="0.5" value="3.5"></label>
+      <label>font <button id="cFontBtn" class="fontbtn">sans-serif</button></label><input id="cFont" type="hidden" value="sans-serif">
+      <div class="row">
+        <button id="mkcables">Make</button>
+        <button id="arrange" title="pack the cable labels on the page, tails interlocked">Arrange</button>
+        <label class="inline"><input id="avoid" type="checkbox" checked> keep tear zone clear</label>
+      </div>
+    </details>
+    <details open data-tab="templates"><summary>Templates</summary>
+      <div id="templates" class="list"></div>
+      <p class="hint">An SVG on the page: <em>Save as template</em> in its properties.</p>
+    </details>
+    <details data-tab="jobs"><summary>Recent prints</summary>
+      <div id="jobs" class="list"></div>
+      <p class="hint">Also on the printer's screen: button 2 moves, 1 picks.</p>
+    </details>
+    <details data-tab="designs"><summary>Designs</summary>
+      <div class="row"><button id="savedesign">Save design</button><button id="newdesign">New</button></div>
+      <div id="designs" class="list"></div>
+    </details>
+    <details data-tab="fonts"><summary>Fonts</summary>
+      <div id="fonts" class="list"></div>
+      <p class="hint">Drop TTF / OTF / WOFF anywhere to add one. A Sketch SVG's text finds its font by family, PostScript name or file name ("Inter-Bold").</p>
+    </details>
+    <details data-tab="paper"><summary>Paper &amp; roll</summary>
+      <select id="paper"></select>
+      <label>mode <select id="mode"><option>labels</option><option>continuous</option></select></label>
+      <label>label length, mm <input id="length" type="number" step="0.5"></label>
+      <label>gap, mm <input id="gap" type="number" step="0.5"></label>
+      <label>label width, mm <input id="width" type="number" step="0.5"></label>
+      <label>left edge from dot 0, mm <input id="left" type="number" step="0.1"></label>
+      <label>head → tear bar, mm <input id="tear" type="number" step="0.5"></label>
+      <label title="where a feed-out leaves the gap's middle">feed-out: gap past the bar, mm <input id="cut" type="number" step="0.5"></label>
+      <label title="hold prints while the paper sensor sees no paper (the roll: yes; labels on a clear liner: maybe not)">use the paper sensor <input id="psensor" type="checkbox"></label>
+      <div class="row"><button id="savepaper">Save paper</button></div>
+      <div id="pos" class="hint"></div>
+      <div class="row">
+        <button id="tearbtn" title="bring the next gap out past the tear bar">Feed out</button>
+        <button id="feed1">Feed 1 mm</button>
+        <button id="feed">Feed 5 mm</button>
+      </div>
+      <p class="hint"><b>Align</b>, from any state of the roll: feed until a label's leading (top) edge is out past
+        the tear bar, measure how far it sticks out, and enter it. A short or partial label works too: only its edge counts.</p>
+      <label>edge out past the bar, mm <input id="alignmm" type="number" step="0.5" value="0"></label>
+      <div class="row"><button id="align" title="a label's leading edge is that far past the tear bar now">Aligned</button></div>
+      <h4>Screen scale</h4>
+      <p class="hint">At <b>1:1</b> the paper shows at its real size. To set this screen: 1:1, hold a real ruler to the
+        ruler over the paper with its 0 at the screen's 0, and read it at the screen's mark.</p>
+      <label>screen's mark, mm <input id="calmark" type="number" step="1" value="40"></label>
+      <label>the real ruler reads, mm <input id="calread" type="number" step="0.5" placeholder="e.g. 38.5"></label>
+      <div class="row"><button id="calib">Set scale</button><button id="calreset">Reset</button></div>
+      <p class="hint" id="calnote"></p>
+    </details>
+  </aside>
+  <section id="view"><svg id="stage" xmlns="http://www.w3.org/2000/svg"></svg></section>
+  <div id="tools">
+    <button id="tUndo" title="undo">↶</button><button id="tRedo" title="redo">↷</button>
+    <button id="tFit" title="fit the label to the screen">Fit</button>
+    <button id="tReal" title="real size">1:1</button>
+    <button id="tPrev" title="as printed">Dots</button>
+    <span class="grow"></span>
+    <button id="tTurn" class="needsel" title="turn 90°">↻ 90°</button>
+    <button id="tJoin" title="join: tap one object, then the next …">Join</button>
+    <button id="tDup" class="needsel" title="duplicate">Dup</button>
+    <button id="tDel" class="needsel danger" title="delete">Delete</button>
+  </div>
+  <aside id="right"><div id="layers"></div><div id="props"><div class="hint">Click something on the page.<br><br>
+    Drag to move (0.5 mm steps, Alt: free), the square corner to scale (Shift: stretch), the round knob to turn (15° steps, Shift: free).<br><br>
+    <kbd>?</kbd> lists the shortcuts.</div></div></aside>
+</main>
+<nav id="tabs">
+  <button data-tab="edit">Edit</button><button data-tab="add">Add</button><button data-tab="icons">Icons</button>
+  <button data-tab="cables">Cables</button><button data-tab="layers">Layers</button><button data-tab="paper">Paper</button>
+  <button data-tab="templates">Templates</button><button data-tab="jobs">Recent</button>
+  <button data-tab="designs">Designs</button><button data-tab="fonts">Fonts</button>
+</nav>
+<div id="msg"></div>
+<div id="fontpop" hidden><input id="fontq" placeholder="Search fonts" autocomplete="off"><div id="fontrows"></div></div>
+<div id="keys" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

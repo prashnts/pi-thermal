@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="auto" font-family="DejaVu Sans">
+<metadata>{"title": "Date tag", "description": "What it is, and its steps (bagged, frozen, opened ...): the first dated, the rest a line to write on.",
+ "fields": {"item": {"default": "", "help": "what it is"}, "steps": {"default": ["Bagged", "Frozen", "Unfrozen", "Opened"], "type": "list"},
+  "date": {"default": "{{date}}", "help": "the first step's date (today)"}},
+ "example": {"item": "Bolognese, 2 portions", "steps": ["Cooked", "Frozen", "Thawed"]}}</metadata>
+<g data-flow="down" data-gap="1.6">
+  <g data-h="6"><rect x="0" y="0" width="{{_w}}" height="6" rx="1" fill="#000"/>
+    <text x="1.5" y="4.5" font-size="4.4" font-weight="700" fill="#fff" data-fit="line" data-width="{{_w}}-3">{{item}}</text></g>
+  {{#steps}}<g data-h="3.4"><circle cx="1.5" cy="1.7" r="1.25" fill="none" stroke="#000" stroke-width="0.3"/>
+    <text x="4" y="2.8" font-size="2.9" font-weight="700">{{.|upper}}</text>
+    <text x="{{_w}}" y="2.8" font-size="2.9" text-anchor="end" font-family="DejaVu Sans Mono">{{#_first}}{{date}}{{/_first}}{{^_first}}____-__-__{{/_first}}</text></g>
+  {{/steps}}
+</g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="14mm" font-family="DejaVu Sans">
+<metadata>{"title": "Asset tag", "description": "A thing's name, its id (and a Data Matrix of it, or of a link), where it lives.",
+ "fields": {"name": {"default": "Thing"}, "id": {"default": "it-0001"}, "where": {"default": ""}, "link": {"default": "", "help": "the code holds this if given, else the id"},
+  "code": {"default": "datamatrix", "help": "datamatrix or qrcode"}},
+ "computed": {"holds": "{{#link}}{{link}}{{/link}}{{^link}}{{id}}{{/link}}"},
+ "example": {"name": "Drill, cordless", "id": "it-0042", "where": "Workshop, shelf 2"}}</metadata>
+<rect data-code="{{code}}" data-text="{{holds}}" x="0.5" y="0.5" width="13" height="13"/>
+<text x="15.5" y="4.6" font-size="4.2" font-weight="700" data-fit="line" data-width="{{_w}}-15.5">{{name}}</text>
+<text x="15.5" y="8.9" font-size="3.2" font-family="DejaVu Sans Mono" font-weight="700" data-fit="line" data-width="{{_w}}-15.5">{{id}}</text>
+<text x="15.5" y="12.6" font-size="2.6" data-fit="line" data-width="{{_w}}-15.5">{{where}}</text>
+</svg>

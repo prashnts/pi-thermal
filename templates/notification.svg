@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="auto" font-family="DejaVu Sans">
+<metadata>{"title": "Notification", "description": "An icon, a title, when, and the message. Home Assistant's notify (rest) sends title and message.",
+ "fields": {"title": {"default": "Home Assistant"}, "message": {"default": "", "help": "wrapped"},
+  "icon": {"default": "mdi:bell", "help": "mdi:… as in Home Assistant, a Material Symbols name, phosphor:…, tabler:…, brands:…"}},
+ "example": {"title": "Washer", "message": "The washing is done. Hang it before 18:00.", "icon": "mdi:washing-machine"}}</metadata>
+<g data-flow="down" data-gap="1.5">
+  <g data-h="9">
+    <rect data-icon="{{icon}}" x="0" y="0" width="9" height="9"/>
+    <text x="10.5" y="4.4" font-size="4.6" font-weight="700" data-fit="line" data-width="{{_w}}-10.5">{{title}}</text>
+    <text x="10.5" y="8.4" font-size="2.6" data-fit="line" data-width="{{_w}}-10.5">{{weekday}} {{date}} {{time}}</text>
+  </g>
+  <text font-size="4" data-wrap="{{_w}}" data-fit="shrink">{{message}}</text>
+</g>
+</svg>

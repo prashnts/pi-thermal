@@ -6,7 +6,11 @@ Conflicts=getty@tty1.service
 [Service]
 Type=simple
 User=pi
-ExecStart=/usr/bin/screen -U -A -S myTTY1 /usr/bin/zsh
+WorkingDirectory=/home/pi/pi-thermal
+# the printer's screen (tui.py; restarted if it fails), the shell after it (q quits it)
+ExecStart=/usr/bin/screen -U -A -S myTTY1 /usr/bin/zsh -c 'until python3 tui.py; do sleep 2; done; exec zsh'
+Restart=always
+RestartSec=2
 StandardInput=tty-force
 StandardOutput=inherit
 StandardError=inherit

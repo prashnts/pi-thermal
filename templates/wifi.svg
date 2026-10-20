@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="auto" font-family="DejaVu Sans">
+<metadata>{"title": "Wi-Fi", "description": "A Wi-Fi QR code (phones join by scanning it), the network and password written out.",
+ "fields": {"ssid": {"default": "Guest"}, "password": {"default": ""}, "security": {"default": "WPA", "help": "WPA, WEP or nopass"},
+  "hidden": {"default": "", "help": "yes: a hidden network"}},
+ "computed": {"qr": "WIFI:T:{{security}};S:{{ssid|wifi}};P:{{password|wifi}};{{#hidden}}H:true;{{/hidden}};"},
+ "example": {"ssid": "Guest", "password": "correct horse battery"}}</metadata>
+<rect data-code="qrcode" data-text="{{qr}}" x="0" y="0" width="24" height="24"/>
+<g transform="translate(26 0)" data-flow="down" data-gap="0.8">
+  <g data-h="5"><rect data-icon="mdi:wifi" x="0" y="0" width="5" height="5"/><text x="6" y="4.1" font-size="4.4" font-weight="700">Wi-Fi</text></g>
+  <text font-size="2.3">network</text>
+  <text font-size="3.6" font-weight="700" data-wrap="{{_w}}-26" data-fit="shrink">{{ssid}}</text>
+  {{#password}}<text font-size="2.3">password</text>
+  <text font-size="3.4" font-family="DejaVu Sans Mono" data-wrap="{{_w}}-26">{{password}}</text>{{/password}}
+</g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46mm" height="20mm" font-family="DejaVu Sans">
+<metadata>{"title": "Filament spool", "description": "Bambu style: brand, type, colour, product code, temperatures, dates, and a code built from them (and a Data Matrix of it). Rows count the serial up.",
+ "fields": {"brand": {"default": "Bambu Lab"}, "type": {"default": "PLA Basic"}, "color": {"default": "Jade White"}, "sku": {"default": "", "help": "product code, e.g. 10100"},
+  "temps": {"default": "190–230 °C"}, "bought": {"default": "{{date}}"}, "opened": {"default": "", "help": "empty: a line to write on"},
+  "serial": {"default": "", "help": "empty: the row number"}, "code": {"help": "empty: brand-type-yymmdd-serial"}},
+ "computed": {"sn": "{{#serial}}{{serial}}{{/serial}}{{^serial}}{{n}}{{/serial}}", "code": "{{brand|brand}}-{{type|type}}-{{bought|yymmdd}}-{{sn|pad:2}}"},
+ "example": {"brand": "Bambu Lab", "type": "PETG HF", "color": "Black", "sku": "33102", "temps": "230–260 °C"}}</metadata>
+<rect x="0.125" y="0.125" width="45.75" height="19.75" rx="1.5" fill="none" stroke="#000" stroke-width="0.25"/>
+<rect data-code="datamatrix" data-text="{{code}}" x="1.25" y="1.25" width="17.5" height="17.5"/>
+<text x="20.25" y="3.4" font-size="2.4" font-weight="700" data-fit="line" data-width="24.5">{{brand|upper}}</text>
+<text x="20.25" y="8.2" font-size="5.2" font-weight="800" data-fit="line" data-width="24.5">{{type}}</text>
+<text x="20.25" y="11.3" font-size="2.8" data-fit="line" data-width="24.5">{{color}}{{#sku}} · {{sku}}{{/sku}}</text>
+<text x="20.25" y="13.8" font-size="2.2" data-fit="line" data-width="24.5">{{temps}}</text>
+<text x="20.25" y="16.2" font-size="2" data-fit="line" data-width="24.5">{{bought}} → {{#opened}}{{opened}}{{/opened}}{{^opened}}opened ____{{/opened}}</text>
+<text x="20.25" y="18.9" font-size="2.5" font-weight="700" font-family="DejaVu Sans Mono" data-fit="line" data-width="24.5">{{code}}</text>
+</svg>

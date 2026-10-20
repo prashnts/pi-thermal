@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="auto" font-family="DejaVu Sans">
+<metadata>{"title": "Text", "description": "A title and text, wrapped to the paper's width; on the roll, as long as it needs.",
+ "fields": {"title": {"default": "", "help": "bold, over the text (empty: none)"}, "text": {"default": "Hello", "help": "wrapped; new lines kept"},
+  "size": {"default": "4", "help": "text size, mm"}, "footer": {"default": "", "help": "small, under it"}},
+ "example": {"title": "Note", "text": "Oat milk, coffee filters and the 2.5 mm hex key.", "footer": "from the kitchen tablet"}}</metadata>
+<g data-flow="down" data-gap="1.2">
+  <text font-size="6" font-weight="700" data-wrap="{{_w}}" data-fit="shrink">{{title}}</text>
+  <text font-size="{{size}}" data-wrap="{{_w}}" data-fit="shrink">{{text}}</text>
+  <text font-size="2.2" data-wrap="{{_w}}">{{footer}}</text>
+</g>
+</svg>

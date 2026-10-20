@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "pi_thermal")(type "KiCad")(uri "${KIPRJMOD}/pi_thermal.kicad_sym")(options "")(descr "pi-thermal boards and modules"))
+)

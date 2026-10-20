@@ -14,7 +14,7 @@ def screensaver():
         if 's' not in idle_time:
             print("saving screen")
             saver = random.choice(['pipes.sh', 'cmatrix'])
-            signs = ['bash /u', 'cmatrix']
+            signs = ['bash /u', 'cmatrix', 'tui.py']     # tui.py runs the same savers itself (buttons don't count as idle here)
             if all(sig not in line for sig in signs):
                 subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'^C'])
                 subprocess.run(['screen', '-x', 'myTTY1', '-X', 'stuff', f'{saver}^M'])

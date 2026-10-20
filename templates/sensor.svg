@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{_w}}mm" height="17mm" font-family="DejaVu Sans">
+<metadata>{"title": "Sensor reading", "description": "A reading, big: a name, its value and unit, an icon, when.",
+ "fields": {"name": {"default": "Temperature"}, "value": {"default": "21.5"}, "unit": {"default": "°C"},
+  "icon": {"default": "mdi:thermometer"}, "when": {"default": "{{datetime}}", "help": "under the value"}},
+ "example": {"name": "Living room", "value": "21.5", "unit": "°C", "icon": "mdi:thermometer"}}</metadata>
+<rect data-icon="{{icon}}" x="0" y="2" width="11" height="11"/>
+<text x="13" y="3.3" font-size="3.2" data-fit="line" data-width="{{_w}}-13">{{name}}</text>
+<text x="13" y="11.6" font-size="8.5" font-weight="700" data-fit="line" data-width="{{_w}}-13">{{value}}{{#unit}} {{unit}}{{/unit}}</text>
+<text x="13" y="15.6" font-size="2.4">{{when}}</text>
+</svg>
