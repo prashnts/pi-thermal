@@ -75,60 +75,7 @@
 ## Steps
 
 - [ ] Test strip (needs OK to print): ruler every 1 mm / 10 mm, a dot grid, width marks → dots/mm, D, edges.
-- [x] printd (2026-10-17): on the Pi under supervisor (`np_printd`, :8631), page in `web/` (paper, Aligned/Tear/Feed,
-  image → dither → print). Not yet printed through it.
-- [x] Label app (2026-10-17, `web/app.js`): pages in mm at the paper's real size; drop SVG / image / font / design;
-  drag, scale, rotate; an SVG's `<text>`s editable (templates); text, box, line; cable flags (`big | small`
-  per line) + *Arrange* (two staggered columns, tails interlocked, overflow → new pages); *as printed* preview;
-  store on the Pi (`web/store/{fonts,templates,designs}`). Not yet printed on paper.
-- [x] (2026-10-17) Free rotation (knob, 15° steps; `[ ]`), shortcuts (`?` lists them), copy/paste between tabs, a font
-  picker (families in their own face, search, the family's weights). Fonts: limn plot's (`limn/.plot-data/fonts`,
-  621 unique of 735) copied to `web/store/fonts`; printd indexes them (`/api/fonts`: family, weight, italic,
-  PostScript name, from the name/OS/2 tables); loaded when used; a print embeds only the faces on its page.
-- [x] (2026-10-17) Material Symbols: 7858 icons × outlined / rounded / sharp, filled or not (`icons.py` packs
-  @material-symbols/svg-400 into `web/icons/*.json`, gzipped for printd); an *icon* object, a path, prints crisp.
-- [x] (2026-10-17) Layers panel (top first: select, drag to reorder, hide, lock, rename; Ctrl ]/[ one step,
-  Ctrl Shift ]/[ to front/back). *Arrange* is a first-fit packer against everything on the page (no overlaps,
-  mixed flag sizes); new objects go to the first free spot.
-- [x] (2026-10-17) Codes (`web/vendor/bwip-js`, MIT, loaded when first used): QR, Micro QR, Data Matrix (square,
-  oblong), Aztec, PDF417, Code 128, Code 39, EAN-13/8, UPC-A, ITF. Modules whole dots, the code on the head's
-  dot grid, quarter turns only; border + padding + rounded corners. Rendered as printed and decoded with
-  zxing-cpp: all 12 read at 2- and 1-dot modules (1 dot only digitally: dot gain on paper, to try). Logo tag
-  (box, Material icon, title, line under). Cable box starts filled in (remembered per browser).
-- [x] (2026-10-17) *On black*, per object (checkbox, `N`): a black box (object + margin, corner radius) with the
-  object as its mask, so it prints white on black; a code's quiet zone is black too. Decoded from the raster with
-  zxing-cpp: QR, Data Matrix (2 and 3-dot modules), Aztec read inverted; Code 128 reads once inverted (zxing's
-  try_invert skips 1D; handheld scanners need "reverse video" on). On paper: black spreads, white modules
-  shrink → try 3-dot modules. Not printed yet.
-- [x] (2026-10-17) Paper `label-50x80` (printd default, selected on the Pi). **Align from any state**: feed until a
-  label's leading edge is out past the tear bar, enter how far (mm), *Aligned* (`/api/align?mm=`; a partial label
-  works). **Feed out** (`cut`, default 4 mm): the gap's middle that far past the bar, for scissors; after a print
-  when *feed out* is ticked (`/api/print?...&out=1`). `fresh` in state: nothing printed since → print here, its top
-  (the red band, `lost_mm`) skipped.
-- [x] (2026-10-17) Shared canvas: the design lives on the Pi (`doc.json`, `/api/doc` long-poll + versioned PUT, 409 →
-  the other screen's wins). Print *all pages* / *this page*; page numbers struck through don't print; the button
-  counts labels.
-- [x] (2026-10-17) Icons: + Material Design Icons (community), Phosphor (regular/bold/fill), Tabler (outline stroked,
-  line width / filled), Simple Icons brands (`icons.py`). Tag icon field takes `mdi:` / `phosphor:` / `tabler:` / `brands:`.
-- [x] (2026-10-17) Shapes (ellipse, triangles, diamond, hexagon, star, block arrow, chevron, arrow tag; rounded
-  corners), line ends (arrow, open, dot, bar) + *Arrow* (A). Shift click multi-select, Ctrl A, Ctrl G group with a
-  frame (box / pill / ellipse, padding, line, dash; on black takes the frame's shape), Ctrl Shift G ungroup.
-  Connectors that stay attached (elbows with a small radius, isometric): the user's wishlist for here and limn plot,
-  written up in `~/repo/limn/TODO.md` *Connectors* (2026-10-18), not started.
-- [x] (2026-10-18) A number on any icon (the user's own tags: the IP's last octet in a box on a node, "96" above a
-  NAS): *number*, in a node / box / filled / circle, above / below / left / right / on the corner, size, font.
-  *Picks*: network, electrical, 3D printing, medical, household, workshop (239 icons from all packs, `PICKS` in
-  `icons.py` → `icons/picks.json`, 44 kB).
-- [x] (2026-10-18) Jobs kept on the Pi (`jobs/`, the last 30, a name from the first page): *Recent prints* in the app
-  (thumbnails, Reprint) and on the PiTFT.
-- [x] (2026-10-18) The PiTFT (mini, 240x135, console 30x17 at 8x8): `tui.py` in the tty1 screen session
-  (`pth-tty.service`, restarted if it fails, `q` → zsh): printer / paper / head / last print; Reprint last, Recent
-  prints, Feed out, Restart printd, Reboot, Shut down (asked, *No* first). Buttons are gpio-key overlays: the user's button 2
-  (GPIO 23) = Up = next, button 1 (GPIO 24) = Enter = ok. Its own screensaver after 2 min (pipes.sh / cmatrix -s), woken by a key or a
-  print; `screensaver.py` leaves tui.py alone. Shot: `~/limn-shot/pitft-tui-1.png`.
-- [x] (2026-10-18) KiCad: `kicad/` (A5, `python3 kicad/gen.py --force --check`, same rules as limn/docs/kicad; core copied
-  from there). The printer as built + planned reverse feed: 2x MAX4624 (SOT23-6, DNP) swap coil A, IN = REV = GPIO26
-  (pin 37, below the PiTFT), 10k pull-down, V+ 5 V. Render: `~/limn-shot/kicad-pi_thermal-20261018.png`.
+- [x] Built 2026-10-17..19 (details in CHANGELOG.md, API.md, the code; many not yet printed on paper): printd, Label app, Free rotation, Material Symbols, Layers panel, Codes, On black*, per object, Paper `label-50x80`, Shared canvas, Icons, Shapes, A number on any icon, Jobs kept on the Pi, The PiTFT, KiCad, Phones, Real size, Wire tags, Markers, Repeat (tiles), `/api/v1`, Test print on the roll, The PiTFT menu shows the paper sensor.
 - [ ] Reverse feed: open the printer, find the motor driver and its motor supply. The MAX4624 only fits in the coil if
   VM <= 5 V (COM/NC/NO clamp above V+) and the coil current <= 200 mA (400 mA peak); else switch the driver's
   inputs (IN1/IN2, or DIR). Then `/api/reverse?mm=` in printd (REV high, blank rows, wait, REV low; backlash: over-reverse, 1 mm forward).
@@ -141,29 +88,6 @@
   - H-bridge re-drive of coil A: printer OUT_A1/A2 through dividers -> swap (dual 2:1 mux, or 74LVC2G86: turns coast
     into brake) -> DRV8837 (VM <= 11 V) / DRV8871 (12 V, ILIM resistor) -> coil A. 5-7 parts; not an exact copy if
     the printer's driver chops current. Worth it only if the Pi / an MCU takes over the motor later.
-- [x] (2026-10-18) Phones (≤ 860 px; desktop unchanged): two-row header (pages + Print / which, copies, feed out), the
-  paper fills the screen (fit on load and on rotate), a tab bar (Edit, Add, Icons, Cables, Layers, Paper, Templates,
-  Recent, Designs, Fonts) opens one panel as a sheet under the paper; adding something jumps to Edit. Toolbar: undo,
-  redo, fit, dots (as printed), turn 90°, duplicate, delete. Touch: one finger on an object drags it, elsewhere pans
-  (a tap deselects), two fingers pinch-zoom; bigger handles on touch screens; 16 px inputs (no iOS zoom).
-  Shots: `~/limn-shot/labels-mobile-*.png`. No Shift-click multi-select on touch yet (Layers could do it).
-- [x] (2026-10-18) **Real size**: the paper opens at 1:1 (96 px/inch × a per-browser screen scale: *Paper & roll → Screen
-  scale*, read a real ruler against the screen's ruler; `1:1` in the header and the phone toolbar). **Rulers** over and left
-  of the paper (mm, numbered every 10, the pointer marked on them; *ruler* toggle).
-- [x] (2026-10-18) **Wire tags** (W): *wrap* round the wire (π·d × 1.5 turns, Brady's rule; the text along the wire, repeated
-  so a row faces you from any side; turn marks) or *heat-shrink insert* (as wide as the tube lies flat, π·d/2, less slack).
-  **Pin strips** (P): names over a row of pins, presets Dupont 1×N / 2×N (2.54), JST XH / PH, terminal blocks 5.08 / 3.5,
-  DIN breakers 18 mm; *wrap* (front, side, back with the pins last-first as seen from behind, side, glue), *both*, *one*;
-  2×N: odd pins front, even back; pin-1 bar, names along the wire or across, folds dashed.
-- [x] (2026-10-18) **Markers** (M): ArUco 4×4…7×7 (as _50/_100/_250/_1000), original, MIP 36h12, AprilTag 16h5 / 25h9 /
-  36h10 / 36h11 (`markers.py` dumps OpenCV's tables into `web/markers.json`), ChArUco boards (OpenCV's layout: top-left
-  black, ids row by row in the white squares), checkerboards; bits whole dots on the head grid, caption, cut line.
-  Rasterized as printed and detected with cv2 (ArUco ids, AprilTag, 6×6 #123, ChArUco 24/24 corners, checker 40/40).
-  Not printed on paper yet: try 3+ dot bits.
-- [x] (2026-10-18) **Repeat (tiles)** in any object's properties: across × down, gaps, *Fill label*, how many (more → next
-  pages), `{n}` / `{nnn}` numbering (markers count their id up, the dictionary size raised to hold them), or a list (one line a
-  copy: `{v}`, else the main text), dashed cut lines in the gaps. Markers: a series from their id, or id ranges
-  (`0-9, 20, 30-38/2`), the ids shown before Make. Covers the `{{field}}` batch below.
 - [ ] Hershey line fonts.
 - [ ] Pack & cut layout for any objects, not only cables.
 - [ ] Drop CUPS for this printer (AirPrint is no longer needed once the app prints).
@@ -174,12 +98,8 @@ Open: the gap (~5 mm, to measure).
 
 ## API (2026-10-19)
 
-- [x] `/api/v1`: SVG + Mustache templates (`templates/`), previews, ZPL (HTTP and TCP 9100), MCP server, Home Assistant
-  examples. All in [API.md](API.md).
-- [x] Test print on the roll (2026-10-19): codes from 2-dot modules, hairlines from 1 dot (faint), text from 2 mm.
 - [ ] Labels without the tape (the user thinks theirs aren't see-through; untested): what the sensor says over a label and over a gap (DLE EOT 4), and whether the firmware
   still prints when it sees a gap. If it does: auto-align from the gaps; if not, the tape goes back for labels.
-- [x] The PiTFT menu shows the paper sensor (2026-10-19), held prints and a clear.
 - [ ] ZPL `^FR` (reverse field) is printed as normal for now; `^A0` is DejaVu Sans Bold condensed: compare with a Zebra.
 - [ ] Register the MCP server (`claude mcp add printher ...`) once the user says so.
 - [ ] Labels: the strip past the head after a tear costs ZPL labels their top (no way to send `whole` over TCP); the
